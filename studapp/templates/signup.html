@@ -1,0 +1,165 @@
+{% extends 'wsidenav.html'%} 
+{%block content%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><!--cdn of ajax-->
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script><!--cdn of jqueryvalidation-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<style>
+.pic{
+    background-image: url("{% static 'images/s3.jpg' %}");  
+        background-size: cover;
+}
+.text{
+        background: rgb(0, 0, 0);
+        background: rgba(0, 0, 0, 0.5); /* Black see-through  */
+        color: white;
+    }
+    .error{
+        color: red;
+    }
+</style>
+</head>
+<body>
+    <div class="container-fluid pic">
+        <div class="row">
+            <div class=" col-lg-3 col-md-2 col-sm-2"></div>
+            <div class="col-lg-8 col-md-8 col-sm-8 text mb-5 mt-5">
+                <h3 class="login-head">Students Registration Form</h3>
+
+                <form action="signup" method="POST" id="log">
+                    {%csrf_token%}
+                    <div class="form-group">
+                        <label for="name">Name</label><br>
+                        <input  type="text" name="name" id="name"class="form-control"placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="num">Contact</label><br>
+                        <input  type="text" name="number" id="number"class="form-control"placeholder="Phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="mail">Email</label><br>
+                        <input  type="email" name="mail" id="mail"class="form-control"placeholder="Email ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Username</label><br>
+                        <label id="checkuname" style="color: red;"></label>
+                        <input  type="text" name="uname" id="uname"class="form-control"placeholder="Username">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="pass">Password</label>
+                            <div class="input-group">
+                                <input  type="password" name="pass" id="pass"class="form-control"placeholder="Password">
+                            </div>    
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="cpass">Confirm Password</label>
+                            <div class="input-group">
+                                <input  type="password" name="cpass" id="cpass"class="form-control"placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-lg bg-success mt-3">Register</button>
+                    {{message}}
+                    
+                </form>
+            </div>
+        </div>
+    </div>  
+    <script>
+        $(document).ready(function(){
+        jQuery.validator.addMethod("noSpace", function(value, element){
+                return value.indexOf(" ") < 0 || (value.trim()==value);}); 
+        $('#log').validate({
+            rules:{
+                name:{
+                    required:true,
+                    noSpace:true 
+                },
+                number:{
+                    required:true,
+                    noSpace:true,
+                    number:true,
+                    minlength:10,
+                    maxlength:10
+                },
+                mail:{
+                    required:true, 
+                },
+                uname:{
+                    required:true,
+                    noSpace:true 
+                },
+                pass:{
+                    required:true,
+                    minlength:5,
+                    noSpace:true 
+                },
+                cpass:{
+                    required: true,
+                            equalTo: "#pass"
+                },
+                
+
+            },
+            messages:{
+                name:{
+                    noSpace:'Whitespace not allowed'
+                },
+                number:{
+                    required:'Enter Mobile number',
+                    noSpace:'Whitespace not allowed',
+                    number:'Enter valid numbers'
+                },
+                uname:{
+                    required:'Username required',
+                    noSpace:'Whitespace not allowed'
+                },
+                pass:{
+                    required:'password is required',
+                    minlength: "Your password must be at least 5 characters long",
+                    noSpace:'Whitespace not allowed'
+                },
+                cpass:{
+                        required:"Please provide a confirm password",
+                        equalTo:'Enter matching password' 
+                    }
+            }
+        })
+    })
+    </script>
+    <script>
+    /* existing email checking */
+
+    $(document).ready(function(){
+        $('#uname').blur(function(){
+            usname=$('#uname').val()
+            $.ajax({
+                url:'emailcheck',
+                type:'GET',
+                data:{
+                    'usrname':usname
+                },
+                success:function(response){
+                    if(response.message){
+                        $('#checkuname').html('Username already exists')
+                    }
+                    else{
+                        $('#checkuname').html("")
+                    }
+                }
+            })
+        })
+    })
+    </script>
+{% endblock %}
+</body>
+</html>

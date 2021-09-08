@@ -1,0 +1,44 @@
+{% extends 'sidenavadmin.html'%} 
+{%block content%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<style>
+.admin{
+            border:6px solid skyblue;
+            border-radius: 25px;
+           background-color:gray;
+        }
+</style>
+</head>
+<body>
+
+    {{admin}}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="admin p-5 mt-5">
+                    <h3><a href="signup" style="color: green;">ADD STUDENTS</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="admin p-4 mt-5">
+                    <h3><a href="active" style="color:darkmagenta;"> VIEW ACTIVE <br> STUDENTS</a></h3>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="admin p-4 mt-5">
+                    <h3> <a href="inactive" style="color: maroon;">VIEW INACTIVE <br>STUDENTS</a></h3>
+                </div>
+            </div> 
+        </div>       
+    </div>
+    {% endblock %}
+</body>
+</html>
